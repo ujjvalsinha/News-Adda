@@ -16,10 +16,11 @@ class _CateogoryState extends State<Cateogory> {
   spin() {
     return SpinKitRotatingPlain(color: Colors.red);
   }
- var data;
+
+  var data;
   var url =
       "https://newsapi.org/v2/top-headlines?country=in&apiKey=2d876e297540454b908c7258890cb059";
-       Future<String> getjsondata() async {
+  Future<String> getjsondata() async {
     var response = await http.get(url);
     if (mounted) {
       setState(() {
@@ -29,11 +30,13 @@ class _CateogoryState extends State<Cateogory> {
       });
     }
   }
-   @override
+
+  @override
   void initState() {
-   // getjsondata();
+    // getjsondata();
     super.initState();
   }
+
   Widget space(img, txt, categoryName) {
     return GestureDetector(
       onTap: () => setcategory(categoryName),
@@ -73,9 +76,24 @@ class _CateogoryState extends State<Cateogory> {
         body: CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          backgroundColor: Theme.of(context).brightness == Brightness.dark?Color(0xFF282828):Colors.white,
+          backgroundColor: Theme.of(context).brightness == Brightness.dark
+              ? Color(0xFF282828)
+              : Colors.white,
           title: Container(
-              height: size.height * .05, width: size.width * .38, child: Image.asset("images/LOGO.png"),),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: Colors.white,
+            ),
+            height: size.height * .04,
+            width: size.width * .35,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: Image.asset(
+                "images/LOGO.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 15.0),
@@ -90,11 +108,12 @@ class _CateogoryState extends State<Cateogory> {
             Column(
               children: <Widget>[
                 space("images/world.jpeg", "All Current News", ""),
-                space("images/bussness.jpeg", "Business","business"),
-                space("images/sports.jpeg", "Sports","sports"),
-                space("images/entertainment.jpeg", "Entertainment","entertainment"),
-                space("images/technology.jpeg", "Technology","technology"),
-                space("images/health.jpeg", "Health","health"),
+                space("images/bussness.jpeg", "Business", "business"),
+                space("images/sports.jpeg", "Sports", "sports"),
+                space("images/entertainment.jpeg", "Entertainment",
+                    "entertainment"),
+                space("images/technology.jpeg", "Technology", "technology"),
+                space("images/health.jpeg", "Health", "health"),
               ],
             ),
           ]),

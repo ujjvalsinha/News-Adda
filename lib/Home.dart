@@ -74,12 +74,18 @@ class _HomeState extends State<Home> {
                   title: Row(
                     children: <Widget>[
                       Container(
-                        color: Colors.black,
-                        height: size.height * .05,
-                        width: size.width * .38,
-                        child: Image.asset(
-                          "images/LOGO.png",
-                          fit: BoxFit.fill,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          color: Colors.white,
+                        ),
+                        height: size.height * .04,
+                        width: size.width * .35,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          child: Image.asset(
+                            "images/LOGO.png",
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
                       Padding(
