@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:connectivity/connectivity.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,8 +37,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
   String _cateogory = "";
-  StreamSubscription connectivitySubscription;
-  ConnectivityResult oldres;
+  bool isDeviceConnected = false;
+  var subscription;
+  // StreamSubscription connectivitySubscription;
+  // ConnectivityResult oldres;
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
@@ -45,27 +48,25 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
 
-    connectivitySubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult resnow) {
-      if (resnow == ConnectivityResult.none) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Nointernet(),
-          ),
-        );
-      } else if (oldres == ConnectivityResult.none) {
-        print("connected");
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyApp(),
-          ),
-        );
-      }
+    Future<bool> checkInternet() {
+      return DataConnectionChecker().hasConnection;
+    }
 
-      oldres = resnow;
+    checkInternet().then((onValue) {
+      setState(() {
+        isDeviceConnected = onValue;
+      });
+    });
+
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      if (result != ConnectivityResult.none) {
+        isDeviceConnected = await DataConnectionChecker().hasConnection;
+      } else {
+        isDeviceConnected = false;
+      }
+      setState(() {});
     });
     super.initState();
   }
@@ -96,7 +97,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(),
+      body: !isDeviceConnected ? Nointernet() : _body(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: (int index) {
