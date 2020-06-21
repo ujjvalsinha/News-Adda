@@ -12,6 +12,30 @@ class _VideoState extends State<Video> {
     return SpinKitRotatingPlain(color: Colors.red);
   }
 
+  List<String> image = [
+    "images/tv1.jpeg",
+    "images/tv2.jpg",
+    "images/tv3.jpg",
+    "images/tv4.jpeg",
+    "images/tv5.jpg"
+  ];
+
+  List<String> text = [
+    "Aaj tak",
+    "ABP",
+    "India Today",
+    "INDIA TV",
+    "TV9",
+  ];
+
+  List<String> link = [
+    "https://www.youtube.com/watch?v=QZmAYF3uYag",
+    "https://www.youtube.com/watch?v=z7cQ1GTfLUY",
+    "https://www.youtube.com/watch?v=uQlwJ8ckz8s",
+    "https://www.youtube.com/watch?v=nFBTh57oFsI",
+    "https://www.youtube.com/watch?v=ZB_cxKau8iQ",
+  ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,6 +46,7 @@ class _VideoState extends State<Video> {
             backgroundColor: Theme.of(context).brightness == Brightness.dark
                 ? Color(0xFF282828)
                 : Colors.white,
+            automaticallyImplyLeading: false,
             title: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -37,14 +62,6 @@ class _VideoState extends State<Video> {
                 ),
               ),
             ),
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 15.0),
-                child: Icon(
-                  Icons.search,
-                ),
-              ),
-            ],
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -55,7 +72,8 @@ class _VideoState extends State<Video> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VideoPlayerScreen()),
+                          builder: (context) => VideoPlayerScreen(link, index),
+                        ),
                       );
                     },
                     child: Card(
@@ -63,8 +81,8 @@ class _VideoState extends State<Video> {
                       child: Container(
                         height: 200,
                         width: double.infinity,
-                        child: Image.network(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFG3KaW9Hjl8WGBhuiVqNmzzRZRCFBkgnFom3RCuJ-Zk9DpQNtoA&s",
+                        child: Image.asset(
+                          image[index],
                           fit: BoxFit.fitWidth,
                         ),
                       ),
@@ -77,8 +95,9 @@ class _VideoState extends State<Video> {
                             top: 10.0, left: 13, bottom: 20),
                         child: CircleAvatar(
                           radius: 18,
-                          backgroundImage: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFG3KaW9Hjl8WGBhuiVqNmzzRZRCFBkgnFom3RCuJ-Zk9DpQNtoA&s"),
+                          backgroundImage: AssetImage(
+                            image[index],
+                          ),
                         ),
                       ),
                       Column(
@@ -92,7 +111,7 @@ class _VideoState extends State<Video> {
                                 child: Wrap(
                                   children: <Widget>[
                                     Text(
-                                      "NEWS",
+                                      text[index],
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -111,8 +130,6 @@ class _VideoState extends State<Video> {
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ),
-                              Text("• 2 Min Ago",
-                                  style: TextStyle(fontSize: 12))
                             ],
                           ),
                         ],
@@ -124,7 +141,7 @@ class _VideoState extends State<Video> {
                   ),
                 ],
               ),
-              childCount: 10,
+              childCount: 5,
             ),
           ),
         ],

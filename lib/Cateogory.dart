@@ -20,7 +20,7 @@ class _CateogoryState extends State<Cateogory> {
   var data;
   var url =
       "https://newsapi.org/v2/top-headlines?country=in&apiKey=2d876e297540454b908c7258890cb059";
-  Future<String> getjsondata() async {
+  Future getjsondata() async {
     var response = await http.get(url);
     if (mounted) {
       setState(() {
@@ -79,6 +79,7 @@ class _CateogoryState extends State<Cateogory> {
           backgroundColor: Theme.of(context).brightness == Brightness.dark
               ? Color(0xFF282828)
               : Colors.white,
+              automaticallyImplyLeading: false,
           title: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),

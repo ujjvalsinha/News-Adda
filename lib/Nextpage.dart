@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:newsfast/DetailedNews.dart';
 import 'package:share/share.dart';
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 
 class Nextpage extends StatefulWidget {
   final data1, index;
@@ -26,14 +27,14 @@ class _NextpageState extends State<Nextpage> {
   var text;
   _NextpageState(this.data2, this.index1);
 
-  launchURL() async {
-    String url = data2[index1]["url"];
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // launchURL() async {
+  //   String url = data2[index1]["url"];
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,10 +52,21 @@ class _NextpageState extends State<Nextpage> {
                         ? Container(
                             height: size.height * .4,
                             width: double.infinity,
-                            child: Image.network(
-                              data2[index1]["urlToImage"],
-                              fit: BoxFit.fill,
-                            ),
+                            child: FadeInImage.assetNetwork(
+                                              fit: BoxFit.fill,
+
+                                              //fadeInDuration: Duration(seconds: 1),
+                                              placeholder: Theme.of(context)
+                                                          .brightness ==
+                                                      Brightness.dark
+                                                  ? "images/lod1.gif"
+                                                  : "images/lod2.gif",
+                                              image: data2[index1]["urlToImage"],
+                                            ),
+                          //   Image.network(
+                          //     data2[index1]["urlToImage"],
+                          //     fit: BoxFit.fill,
+                          //   ),
                           )
                         : notfound(),
                   ),
@@ -90,7 +102,9 @@ class _NextpageState extends State<Nextpage> {
                         color: Colors.white,
                         size: size.height * .04,
                       ),
-                      onPressed: (){Navigator.pop(context);}),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      }),
                 ],
               ),
               SizedBox(
@@ -148,21 +162,40 @@ class _NextpageState extends State<Nextpage> {
                         ),
                       ),
                     )
-                  : Text("No data"),
-              FlatButton(
-                  onPressed: () {
-                    print("hello");
-                    launchURL();
-                  },
-                  child: Text(
-                    "touch to read more at ${data2[index1]["source"]["name"]}",
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Color(0xFFE0E0E0)
-                          : Color(0xFF585858),
+                  : Container(
+                      margin: EdgeInsets.fromLTRB(15, 15, 15, 2),
+                      child: Text(""),
                     ),
-                  ),)
+              FlatButton(
+                onPressed: () {
+                  print("hello");
+                  // launchURL();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DetailedNews(data2, index1)),
+                  );
+                },
+                child:data2[index1]["content"] != null
+                  ? Text(
+                  "touch to read more at ${data2[index1]["source"]["name"]}",
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFFE0E0E0)
+                        : Color(0xFF585858),
+                  ),
+                ):Text(
+                  "Touch to read full article at ${data2[index1]["source"]["name"]}",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontStyle: FontStyle.italic,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Color(0xFFE0E0E0)
+                        : Color(0xFF585858),
+                  ),
+                )
+              )
             ],
           )
         ],

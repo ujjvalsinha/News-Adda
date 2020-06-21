@@ -55,140 +55,179 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+  Future<bool> _onbackpressed(){
+    return showDialog(context: context,
+    builder: (context)=>AlertDialog(
+      title: Text("Exit"),
+      actions: <Widget>[
+        FlatButton(onPressed:(){Navigator.pop(context,false);}, child: Text("No")),
+        FlatButton(onPressed:(){Navigator.pop(context,true);}, child: Text("Yes"))
+      ],
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: data == null
-          ? spin()
-          : CustomScrollView(
-              slivers: <Widget>[
-                SliverAppBar(
-                  backgroundColor:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color(0xFF282828)
-                          : Colors.white,
-                  iconTheme: new IconThemeData(
-                    color: Colors.red[900],
+    return WillPopScope(
+      onWillPop: _onbackpressed,
+          child: Scaffold(
+        body: data == null
+            ? Column(
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ?Color(0xFF282828):Colors.white,
+                      child: Theme.of(context).brightness == Brightness.dark
+                          ? Image.asset("images/lod1.gif")
+                          : Image.asset("images/lod2.gif"),
+                    ),
                   ),
-                  title: Row(
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.white,
-                        ),
-                        height: size.height * .04,
-                        width: size.width * .35,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          child: Image.asset(
-                            "images/LOGO.png",
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25.0),
-                        // child: Text(tittle,style: TextStyle(color: Colors.red[900],fontWeight: FontWeight.bold),),
-                      ),
-                    ],
-                  ),
-                  actions: <Widget>[],
-                ),
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => Column(
+                ],
+              ) //spin()
+            : CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    backgroundColor:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color(0xFF282828)
+                            : Colors.white,
+                    iconTheme: new IconThemeData(
+                      color: Colors.red[900],
+                    ),
+                    //leading: Container(),
+                    automaticallyImplyLeading: false,
+                    title: Row(
                       children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Nextpage(data, index),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Color(0xFFA9A9A9),
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                            ),
-                            height: size.height * .43,
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: data[index]["urlToImage"] != null
-                                      ? Container(
-                                          height: size.height * .29,
-                                          width: double.infinity,
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            child: Image.network(
-                                              data[index]["urlToImage"],
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        )
-                                      : notfound(),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(8, 10, 4, 6),
-                                  child: Wrap(
-                                    children: <Widget>[
-                                      data[index]["title"] != null
-                                          ? Text(
-                                              data[index]["title"],
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              maxLines: 3,
-                                            )
-                                          : notfound(),
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(8, 6, 8, 1),
-                                      child: Text(
-                                        data[index]["source"]["name"],
-                                        style: TextStyle(fontSize: 11),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 12, top: 6),
-                                      child: Text(
-                                        data[index]["publishedAt"],
-                                        style: TextStyle(fontSize: 11),
-                                      ),
-                                    )
-                                  ],
-                                )
-                              ],
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                          ),
+                          height: size.height * .04,
+                          width: size.width * .35,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Image.asset(
+                              "images/LOGO.png",
+                              fit: BoxFit.fill,
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25.0),
+                          // child: Text(tittle,style: TextStyle(color: Colors.red[900],fontWeight: FontWeight.bold),),
                         ),
                       ],
                     ),
-                    childCount: data == null ? 0 : data.length,
+                    actions: <Widget>[],
                   ),
-                ),
-              ],
-            ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) => Column(
+                        children: <Widget>[
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Nextpage(data, index),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              margin: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: Color(0xFFA9A9A9),
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              height: size.height * .43,
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: data[index]["urlToImage"] != null
+                                        ? Container(
+                                            height: size.height * .29,
+                                            width: double.infinity,
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                              child: FadeInImage.assetNetwork(
+                                                fit: BoxFit.fill,
+
+                                                //fadeInDuration: Duration(seconds: 1),
+                                                placeholder: Theme.of(context)
+                                                            .brightness ==
+                                                        Brightness.dark
+                                                    ? "images/lod1.gif"
+                                                    : "images/lod2.gif",
+                                                image: data[index]["urlToImage"],
+                                              ),
+                                              //  Image.network(
+                                              //   data[index]["urlToImage"],
+                                              //   fit: BoxFit.fill,
+                                              // ),
+                                            ),
+                                          )
+                                        : notfound(),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.fromLTRB(8, 10, 4, 6),
+                                    child: Wrap(
+                                      children: <Widget>[
+                                        data[index]["title"] != null
+                                            ? Text(
+                                                data[index]["title"],
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                maxLines: 3,
+                                              )
+                                            : notfound(),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.fromLTRB(8, 6, 8, 1),
+                                        child: Text(
+                                          data[index]["source"]["name"],
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 12, top: 6),
+                                        child: Text(
+                                          data[index]["publishedAt"],
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      childCount: data == null ? 0 : data.length,
+                    ),
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }

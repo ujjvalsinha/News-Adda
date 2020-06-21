@@ -1,6 +1,9 @@
+import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:newsfast/Nointernet.dart';
 import './Cateogory.dart';
 import './Home.dart';
 import './Profile.dart';
@@ -31,19 +34,41 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   int currentIndex = 0;
   String _cateogory = "";
-   @override
+  StreamSubscription connectivitySubscription;
+  ConnectivityResult oldres;
+  @override
   void initState() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult resnow) {
+      if (resnow == ConnectivityResult.none) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Nointernet(),
+          ),
+        );
+      } else if (oldres == ConnectivityResult.none) {
+        print("connected");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyApp(),
+          ),
+        );
+      }
+
+      oldres = resnow;
+    });
     super.initState();
   }
-
- 
 
   void setCateogory(String cateogoryName) {
     setState(
@@ -55,7 +80,7 @@ class _MyAppState extends State<MyApp> {
     print(_cateogory);
   }
 
-   _body() {
+  _body() {
     switch (currentIndex) {
       case 0:
         return Home(_cateogory);
