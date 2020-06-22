@@ -37,7 +37,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
   String _cateogory = "";
-  bool isDeviceConnected = false;
+  bool isDeviceConnected = true;
   var subscription;
   // StreamSubscription connectivitySubscription;
   // ConnectivityResult oldres;
