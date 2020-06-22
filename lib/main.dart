@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
+    super.initState();
     Future<bool> checkInternet() {
       return DataConnectionChecker().hasConnection;
     }
@@ -68,8 +68,19 @@ class _MyAppState extends State<MyApp> {
       }
       setState(() {});
     });
-    super.initState();
+    
   }
+
+ // @override
+// dispose(){
+//   SystemChrome.setPreferredOrientations([
+//     DeviceOrientation.landscapeRight,
+//     DeviceOrientation.landscapeLeft,
+//     DeviceOrientation.portraitUp,
+//     DeviceOrientation.portraitDown,
+//   ]);
+//   super.dispose();
+// }
 
   void setCateogory(String cateogoryName) {
     setState(
