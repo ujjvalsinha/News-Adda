@@ -136,35 +136,35 @@ class _HomeState extends State<Home> {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => Column(
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Nextpage(data, index),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1,
-                                color: Color(0xFFA9A9A9),
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
+                    (context, index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Nextpage(data, index),
                             ),
-                            height: size.height * .43,
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: data[index]["urlToImage"] != null
+                          );
+                        },
+                        child: Container(
+                          height: size.height * .45,
+                          child: LayoutBuilder(builder: (ctx, constraint) {
+                            print("ok: $constraint");
+                            return Container(
+                              margin: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1,
+                                  color: Color(0xFFA9A9A9),
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  data[index]["urlToImage"] != null
                                       ? Container(
-                                          height: size.height * .29,
+                                          height: constraint.maxHeight * .64,
                                           width: double.infinity,
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.all(
@@ -179,8 +179,7 @@ class _HomeState extends State<Home> {
                                                       Brightness.dark
                                                   ? "images/lod1.gif"
                                                   : "images/lod2.gif",
-                                              image: data[index]
-                                                  ["urlToImage"],
+                                              image: data[index]["urlToImage"],
                                             ),
                                             //  Image.network(
                                             //   data[index]["urlToImage"],
@@ -189,52 +188,63 @@ class _HomeState extends State<Home> {
                                           ),
                                         )
                                       : notfound(),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(8, 10, 4, 6),
-                                  child: Wrap(
+                                  Container(
+                                    height: constraint.maxHeight * .2,
+                                    margin: EdgeInsets.only(
+                                      left: constraint.maxWidth * .02,
+                                      right: constraint.maxWidth * .02,
+                                      top: constraint.maxHeight * .02,
+                                      bottom: constraint.maxHeight * .01,
+                                    ),
+                                    child: Wrap(
+                                      children: <Widget>[
+                                        data[index]["title"] != null
+                                            ? Text(
+                                                data[index]["title"],
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                                maxLines: 3,
+                                              )
+                                            : notfound(),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      data[index]["title"] != null
-                                          ? Text(
-                                              data[index]["title"],
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              maxLines: 3,
-                                            )
-                                          : notfound(),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: constraint.maxWidth * .02,
+                                          right: constraint.maxWidth * .02,
+                                           top: constraint.maxHeight * .01,
+                                          // bottom: constraint.maxHeight * .02,
+                                        ),
+                                        child: Text(
+                                          data[index]["source"]["name"],
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:  EdgeInsets.only(
+                                            left: constraint.maxWidth * .02,
+                                          right: constraint.maxWidth * .02,
+                                          top: constraint.maxWidth * .01,
+                                          ),
+                                        child: Text(
+                                          data[index]["publishedAt"],
+                                          style: TextStyle(fontSize: 11),
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8, 6, 8, 1),
-                                      child: Text(
-                                        data[index]["source"]["name"],
-                                        style: TextStyle(fontSize: 11),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 12, top: 6),
-                                      child: Text(
-                                        data[index]["publishedAt"],
-                                        style: TextStyle(fontSize: 11),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                                ],
+                              ),
+                            );
+                          }),
+                        )),
                     childCount: data == null ? 0 : data.length,
                   ),
                 ),

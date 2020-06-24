@@ -16,7 +16,7 @@ class _VideoState extends State<Video> {
     "images/tv1.jpeg",
     "images/tv2.jpg",
     "images/tv3.jpg",
-    "images/tv4.jpeg",
+    "images/tv4.jpg",
     "images/tv5.jpg"
   ];
 
@@ -24,7 +24,7 @@ class _VideoState extends State<Video> {
     "Aaj tak",
     "ABP",
     "India Today",
-    "INDIA TV",
+    "NDTV India",
     "TV9",
   ];
 
@@ -32,7 +32,7 @@ class _VideoState extends State<Video> {
     "https://www.youtube.com/watch?v=QZmAYF3uYag",
     "https://www.youtube.com/watch?v=z7cQ1GTfLUY",
     "https://www.youtube.com/watch?v=uQlwJ8ckz8s",
-    "https://www.youtube.com/watch?v=nFBTh57oFsI",
+    "https://www.youtube.com/watch?v=l9ViEIip9q4",
     "https://www.youtube.com/watch?v=ZB_cxKau8iQ",
   ];
 
